@@ -1,32 +1,21 @@
 # Python LLM API Practice
 
-A Python CLI project for learning how to call the DeepSeek API, use a system prompt, and pass validated Python tool results back to a model. The project includes small API exercises and a bounded workflow that analyzes a synthetic antibiotic resistance gene (ARG) abundance table.
+A Python CLI project for practicing **DeepSeek API integration, function calling, and automated evaluation**. It includes two small API exercises and a reproducible offline workflow that turns a synthetic data table into validated summaries, charts, and a Word report.
 
-## Implemented
+## What it demonstrates
 
-| Entry point | What it demonstrates |
+| Capability | Implementation |
 | --- | --- |
-| `test_deepseek.py` | Sends a system prompt and the current question to DeepSeek through the OpenAI-compatible Python SDK. The terminal accepts repeated questions. Each API request starts with a fresh message list. |
-| `test_function_calling.py` | Lets the model request a small arithmetic tool, checks the arguments, and sends the tool result back to the model. |
-| `python -m agent.agent demo` | Runs a deterministic, offline pipeline for data validation, sample totals, descriptive comparisons, plots, and a Word report. |
-| `python -m agent.agent deepseek` | Runs a multi-step model–tool exchange for one task. Python validates registered tool calls, returns each result with its tool-call ID, and caps execution at eight tool calls. |
+| API requests and responses | Uses the OpenAI Python SDK against DeepSeek. Shows a system prompt, prompt submission, and handling of empty responses, connection errors, and API status errors. |
+| Function calling | Parses and validates model-supplied arguments, runs registered Python functions, and returns results with the matching tool-call ID. The analysis workflow caps execution at eight calls. |
+| Data processing | Loads the bundled synthetic Excel or CSV, checks input quality, computes descriptive comparisons, and generates three PNG charts and a Word report. |
+| Automated tests | **15 tests** cover the mocked API request contract, tool validation and recovery, default and explicit file paths, statistics, and report output. |
 
-The workflow starts with a system prompt and a user task. In DeepSeek mode, the model chooses the next registered tool. Python checks the request, runs the tool, and appends its result to the message list. Python also computes the values shown in the terminal and generated report. The API demo uses the bundled synthetic workbook.
+**Stack** · Python 3.12, DeepSeek API, OpenAI Python SDK, pandas, openpyxl, Matplotlib, python-docx, python-dotenv, and unittest.
 
-## Stack and structure
+## Run offline
 
-Python 3.12, OpenAI Python SDK for the DeepSeek endpoint, python-dotenv, pandas, openpyxl, Matplotlib, python-docx, and unittest.
-
-| Path | Role |
-| --- | --- |
-| `agent/agent.py`, `agent/prompts.py`, `agent/workflow.py` | CLI, system prompt, and tool execution |
-| `arg_analysis_tools.py`, `tools/` | Input checks, abundance summaries, comparison, plots, and report generation |
-| `data/demo/` | Synthetic Excel and CSV inputs, an anomaly fixture, and independent expected results |
-| `tests/` | Automated data, workflow, statistics, and reporting checks |
-
-## Run locally
-
-From the repository root in PowerShell, with Python 3.12 installed:
+From the repository root in PowerShell with Python 3.12 installed:
 
 ```powershell
 py -3.12 -m venv .venv
@@ -35,9 +24,11 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
-The offline demo needs no API key. The Python helpers `read_arg_excel()` and `calculate_arg_abundance()` use the bundled synthetic workbook by default and also accept an explicit Excel or CSV path. Each run writes its report, three PNG charts, structured results, and tool-call log to a separate folder under `outputs/`.
+The demo uses the packaged synthetic workbook and needs no API key. It writes charts, a report, and a tool log under `outputs/`. The helpers also accept explicit Excel or CSV paths.
 
-To run an API exercise, copy the example environment file, set `DEEPSEEK_API_KEY` in the local `.env`, and choose an entry point:
+## Try the DeepSeek API
+
+Copy [`.env.example`](.env.example) to `.env` and set your own `DEEPSEEK_API_KEY`. The first two commands are manual examples. The automated tests are in [`tests/`](tests/).
 
 ```powershell
 Copy-Item .env.example .env
@@ -46,19 +37,8 @@ Copy-Item .env.example .env
 .\.venv\Scripts\python.exe -m agent.agent deepseek
 ```
 
-The two root-level `test_*.py` files are manual API examples. Run `test_deepseek.py` to try the system prompt with a question, or `test_function_calling.py` to see the model request an arithmetic tool and receive the Python result. The offline automated suite is under `tests/`.
+- [System prompt and chat request](test_deepseek.py) sends the current question to DeepSeek.
+- [Function-calling example](test_function_calling.py) demonstrates a model-requested arithmetic function and the follow-up response.
+- [Analysis workflow](agent/workflow.py) runs the registered tools across multiple turns within one task. It sends prompts and synthetic tool results to DeepSeek in API mode.
 
-In `agent.agent deepseek` mode, press Enter to use the built-in task. The online examples require a network connection and a usable DeepSeek account. They send your prompt to DeepSeek, and the analysis workflow also sends synthetic tool results. Use non-sensitive prompts.
-
-## Limits
-
-- The message history for a workflow lasts for one task. The interactive API script does not retain prior user turns, and neither entry point persists chat history.
-- The sample data are synthetic and intended for verifying the workflow. Group comparisons are descriptive and unpaired, with no significance tests. Summed normalized abundances cannot establish absolute gene copy numbers.
-- The workflow exposes a fixed set of Python tools. The demo uses a specific sample-header convention and a single-sheet CLI input. Model tool choices depend on the prompt and the API response.
-- The automated tests exercise the API adapter with a mock. The live scripts require separate execution and credentials.
-
-## Future work
-
-- Add optional, in-memory user conversation history and tests for context carryover.
-- Add more simulated inputs and test additional API failure cases.
-- Record latency and token use for repeatable API evaluations.
+The demo uses synthetic data and reports descriptive, unpaired comparisons. Each chat request starts fresh, while tool messages persist within a single workflow task.
