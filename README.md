@@ -35,7 +35,7 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
-The offline demo needs no API key. Each run writes its report, three PNG charts, structured results, and tool-call log to a separate folder under `outputs/`.
+The offline demo needs no API key. The Python helpers `read_arg_excel()` and `calculate_arg_abundance()` use the bundled synthetic workbook by default and also accept an explicit Excel or CSV path. Each run writes its report, three PNG charts, structured results, and tool-call log to a separate folder under `outputs/`.
 
 To run an API exercise, copy the example environment file, set `DEEPSEEK_API_KEY` in the local `.env`, and choose an entry point:
 
@@ -46,7 +46,9 @@ Copy-Item .env.example .env
 .\.venv\Scripts\python.exe -m agent.agent deepseek
 ```
 
-In DeepSeek mode, press Enter to use the built-in task. The online examples require a network connection and a usable DeepSeek account. They send your prompt to DeepSeek, and the analysis workflow also sends synthetic tool results. Use non-sensitive prompts.
+The two root-level `test_*.py` files are manual API examples. Run `test_deepseek.py` to try the system prompt with a question, or `test_function_calling.py` to see the model request an arithmetic tool and receive the Python result. The offline automated suite is under `tests/`.
+
+In `agent.agent deepseek` mode, press Enter to use the built-in task. The online examples require a network connection and a usable DeepSeek account. They send your prompt to DeepSeek, and the analysis workflow also sends synthetic tool results. Use non-sensitive prompts.
 
 ## Limits
 

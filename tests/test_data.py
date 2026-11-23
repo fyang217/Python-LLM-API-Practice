@@ -9,6 +9,10 @@ from tests.fixtures import DATA, DEMO, EXPECTED
 
 
 class DataTests(unittest.TestCase):
+    def test_default_input_matches_explicit_demo_workbook(self):
+        self.assertEqual(read_arg_excel(), read_arg_excel(DEMO))
+        self.assertEqual(calculate_arg_abundance(), calculate_arg_abundance(DEMO))
+
     def test_excel_and_csv_read(self):
         excel = read_arg_excel(DEMO)
         csv = read_arg_excel(DATA / "demo_arg_data.csv")

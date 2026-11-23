@@ -7,7 +7,7 @@ from statistics import mean, median
 import pandas as pd
 
 
-DEFAULT_PATH = Path(__file__).resolve().parent / "data" / "tpm.xlsx"
+DEFAULT_PATH = Path(__file__).resolve().parent / "data" / "demo" / "demo_arg_data.xlsx"
 SAMPLE_PATTERN = re.compile(r"(I|E)_(LF|IZ|RW|AZ)([0-9]+)")
 
 
