@@ -1,0 +1,42 @@
+# Credentials and local settings
+.env
+.env.*
+!.env.example
+.env.txt
+*.pem
+*.key
+*.pfx
+*.p12
+credentials*.json
+secrets*.toml
+
+# Environments and generated files
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage*
+*.log
+*.tmp
+.Rhistory
+.RData
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.zip
+*.bundle
+/outputs/
+/work/
+
+# Keep only the four controlled synthetic inputs
+/data/*
+!/data/demo/
+/data/demo/*
+!/data/demo/anomalies.csv
+!/data/demo/demo_arg_data.csv
+!/data/demo/demo_arg_data.xlsx
+!/data/demo/expected.json

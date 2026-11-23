@@ -1,0 +1,5 @@
+ARG,I_LF1,I_LF2,E_LF1,E_LF2,I_IZ1,I_IZ2,E_IZ1,E_IZ2,I_RW1,I_RW2,E_RW1,E_RW2,I_AZ1,I_AZ2,E_AZ1,E_AZ2
+demo_ARG_1,0,2,0,2,0,2,0,2,0,2,0,2,0,2,0,2
+demo_ARG_2,7,9,3,5,9,11,11,13,17,19,13,15,5,7,5,7
+beta-lactam_ampC,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+beta-lactam_AmpC,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2

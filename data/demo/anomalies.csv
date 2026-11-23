@@ -1,0 +1,5 @@
+ARG,I_LF1,E_LF1
+demo_ARG_1,0,
+demo_ARG_1,-2,text
+demo_ARG_2,NaN,3
+,1,2
